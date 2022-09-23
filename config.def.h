@@ -41,11 +41,18 @@ static const int resizehints =
 static const int lockfullscreen =
     1; /* 1 will force focus on the fullscreen window */
 
+static const float mfact = 0.55; /* factor of master area size [0.05..0.95]*/
+static const int nmaster = 1;    /* number of clients in master area */
+static const int resizehints =
+    1; /* 1 means respect size hints in tiled resizals */
+
+#include "fibonacci.c"
+
 static const Layout layouts[] = {
     /* symbol     arrange function */
     {"[]=", tile}, /* first entry is default */
     {"><>", NULL}, /* no layout function means floating behavior */
-    {"[M]", monocle},
+    {"[M]", monocle}, {"[@]", spiral}, {"[\\]", dwindle},
 };
 
 /* key definitions */
@@ -99,6 +106,9 @@ static const Key keys[] = {
     TAGKEYS(XK_1, 0) TAGKEYS(XK_2, 1) TAGKEYS(XK_3, 2) TAGKEYS(XK_4, 3)
         TAGKEYS(XK_5, 4) TAGKEYS(XK_6, 5) TAGKEYS(XK_7, 6) TAGKEYS(XK_8, 7)
             TAGKEYS(XK_9, 8){MODKEY | ShiftMask, XK_q, quit, {0}},
+
+    {MODKEY, XK_r, setlayout, {.v = &layouts[3]}},
+    {MODKEY | ShiftMask, XK_r, setlayout, {.v = &layouts[4]}},
 };
 
 /* button definitions */

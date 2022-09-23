@@ -1,11 +1,13 @@
+#include "fibonacci.c"
+
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
 static const unsigned int borderpx = 0; /* border pixel of windows */
 static const unsigned int gappx = 15;
-static const unsigned int snap = 32;    /* snap pixel */
-static const int showbar = 1;           /* 0 means no bar */
-static const int topbar = 1;            /* 0 means bottom bar */
+static const unsigned int snap = 32; /* snap pixel */
+static const int showbar = 1;        /* 0 means no bar */
+static const int topbar = 1;         /* 0 means bottom bar */
 static const char *fonts[] = {"Hasklig:size=15"};
 static const char col_gray1[] = "#1b1b1d";
 static const char col_gray2[] = "#242426";
@@ -39,11 +41,14 @@ static const int resizehints =
 static const int lockfullscreen =
     1; /* 1 will force focus on the fullscreen window */
 
+
+
+
 static const Layout layouts[] = {
     /* symbol     arrange function */
     {"[]=", tile}, /* first entry is default */
     {"><>", NULL}, /* no layout function means floating behavior */
-    {"[M]", monocle},
+    {"[M]", monocle}, {"[@]", spiral}, {"[\\]", dwindle},
 };
 
 /* key definitions */
@@ -85,6 +90,8 @@ static const Key keys[] = {
     {MODKEY, XK_t, setlayout, {.v = &layouts[0]}},
     {MODKEY, XK_f, setlayout, {.v = &layouts[1]}},
     {MODKEY, XK_m, setlayout, {.v = &layouts[2]}},
+    {MODKEY, XK_r, setlayout, {.v = &layouts[3]}},
+    {MODKEY | ShiftMask, XK_r, setlayout, {.v = &layouts[4]}},
     {MODKEY, XK_space, setlayout, {0}},
     {MODKEY | ShiftMask, XK_space, togglefloating, {0}},
     {MODKEY, XK_0, view, {.ui = ~0}},
