@@ -41,14 +41,11 @@ static const int resizehints =
 static const int lockfullscreen =
     1; /* 1 will force focus on the fullscreen window */
 
-
-
-
 static const Layout layouts[] = {
     /* symbol     arrange function */
     {"[]=", tile}, /* first entry is default */
     {"><>", NULL}, /* no layout function means floating behavior */
-    {"[M]", monocle}, {"[@]", spiral}, {"[\\]", dwindle},
+    {"[M]", monocle}, {"[@]", spiral}, {"[\\]", dwindle}, {"|||", col},
 };
 
 /* key definitions */
@@ -68,12 +65,13 @@ static const Layout layouts[] = {
 /* commands */
 static const char *dmenucmd[] = {"rofi",         "-show-icons", "-modi",
                                  "drun,run,ssh", "-show",       "drun"};
-static const char *termcmd[] = {"x-terminal-emulator", NULL};
+static const char *termcmd[] = {"x-terminal-emulator"};
+static const char *lockscreen[] = {"slock"};
 
 static const Key keys[] = {
     /* modifier                     key        function        argument */
     {MODKEY, XK_p, spawn, {.v = dmenucmd}},
-    {MODKEY | ShiftMask, XK_Return, spawn, {.v = termcmd}},
+      {MODKEY | ShiftMask, XK_Return, spawn, {.v = termcmd}},
     {MODKEY, XK_minus, setgaps, {.i = -1}},
     {MODKEY, XK_equal, setgaps, {.i = +1}},
     {MODKEY | ShiftMask, XK_equal, setgaps, {.i = 0}},
@@ -91,8 +89,8 @@ static const Key keys[] = {
     {MODKEY, XK_f, setlayout, {.v = &layouts[1]}},
     {MODKEY, XK_m, setlayout, {.v = &layouts[2]}},
     {MODKEY, XK_r, setlayout, {.v = &layouts[3]}},
+    {MODKEY, XK_space, setlayout, {.v = &layouts[5]}},
     {MODKEY | ShiftMask, XK_r, setlayout, {.v = &layouts[4]}},
-    {MODKEY, XK_space, setlayout, {0}},
     {MODKEY | ShiftMask, XK_space, togglefloating, {0}},
     {MODKEY, XK_0, view, {.ui = ~0}},
     {MODKEY | ShiftMask, XK_0, tag, {.ui = ~0}},
@@ -103,6 +101,7 @@ static const Key keys[] = {
     TAGKEYS(XK_1, 0) TAGKEYS(XK_2, 1) TAGKEYS(XK_3, 2) TAGKEYS(XK_4, 3)
         TAGKEYS(XK_5, 4) TAGKEYS(XK_6, 5) TAGKEYS(XK_7, 6) TAGKEYS(XK_8, 7)
             TAGKEYS(XK_9, 8){MODKEY | ShiftMask, XK_q, quit, {0}},
+    {MODKEY | ShiftMask, XK_l, spawn,{.v = lockscreen}},
 };
 
 /* button definitions */
