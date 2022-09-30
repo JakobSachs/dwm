@@ -1,5 +1,5 @@
 #include "fibonacci.c"
-
+#include <X11/XF86keysym.h>
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
@@ -62,16 +62,29 @@ static const Layout layouts[] = {
     .v = (const char *[]) { "/bin/sh", "-c", cmd, NULL }                       \
   }
 
+/* Volume controls */
+static const char *upvol[] = {"/usr/bin/amixer", "set", "Master", "5%+", NULL};
+static const char *downvol[] = {"/usr/bin/amixer", "set", "Master", "5%-",
+                                NULL};
+static const char *mutevol[] = {"/usr/bin/amixer", "set", "Master", "toggle",
+                                NULL};
+
+/* screen brightness */
+
+static const char *light_up[] = {"/usr/bin/light", "-A", "10", NULL};
+static const char *light_down[] = {"/usr/bin/light", "-U", "10", NULL};
+
 /* commands */
 static const char *dmenucmd[] = {"rofi",         "-show-icons", "-modi",
                                  "drun,run,ssh", "-show",       "drun"};
 static const char *termcmd[] = {"x-terminal-emulator"};
 static const char *lockscreen[] = {"slock"};
+static const char *shutdown[] = {"shutdown", "-h", "now"};
 
 static const Key keys[] = {
     /* modifier                     key        function        argument */
     {MODKEY, XK_p, spawn, {.v = dmenucmd}},
-      {MODKEY | ShiftMask, XK_Return, spawn, {.v = termcmd}},
+    {MODKEY | ShiftMask, XK_Return, spawn, {.v = termcmd}},
     {MODKEY, XK_minus, setgaps, {.i = -1}},
     {MODKEY, XK_equal, setgaps, {.i = +1}},
     {MODKEY | ShiftMask, XK_equal, setgaps, {.i = 0}},
@@ -101,7 +114,13 @@ static const Key keys[] = {
     TAGKEYS(XK_1, 0) TAGKEYS(XK_2, 1) TAGKEYS(XK_3, 2) TAGKEYS(XK_4, 3)
         TAGKEYS(XK_5, 4) TAGKEYS(XK_6, 5) TAGKEYS(XK_7, 6) TAGKEYS(XK_8, 7)
             TAGKEYS(XK_9, 8){MODKEY | ShiftMask, XK_q, quit, {0}},
-    {MODKEY | ShiftMask, XK_l, spawn,{.v = lockscreen}},
+    {MODKEY | ShiftMask, XK_l, spawn, {.v = lockscreen}},
+    {MODKEY | ShiftMask, XK_p, spawn, {.v = shutdown}},
+    {0, XF86XK_AudioLowerVolume, spawn, {.v = downvol}},
+    {0, XF86XK_AudioMute, spawn, {.v = mutevol}},
+    {0, XF86XK_AudioRaiseVolume, spawn, {.v = upvol}},
+    {0, XF86XK_MonBrightnessUp, spawn, {.v = light_up}},
+    {0, XF86XK_MonBrightnessDown, spawn, {.v = light_down}},
 };
 
 /* button definitions */
